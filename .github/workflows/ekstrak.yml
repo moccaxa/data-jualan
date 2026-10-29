@@ -1,0 +1,22 @@
+name: Ekstrak zip
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  ekstrak:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ekstrak dan rapikan
+        run: |
+          unzip -q "*.zip"
+          cp -a rekap-jualan/. .
+          rm -rf rekap-jualan
+          rm -f ./*.zip
+      - name: Simpan
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Tambah isi aplikasi"
+          git push
