@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pembuat kunci rahasia — Rekap Jualan</title>
+<style>body{font:16px system-ui,sans-serif;max-width:640px;margin:2rem auto;padding:0 1rem;color:#1e1b4b}h1{font-size:1.3rem}code{background:#f5f3ff;padding:2px 6px;border-radius:4px;word-break:break-all}
+.row{margin:1.2rem 0;padding:1rem;border:1px solid #ddd6fe;border-radius:12px}button{background:#6d28d9;color:#fff;border:0;border-radius:8px;padding:.5rem 1rem;cursor:pointer;margin-top:.5rem}small{color:#64748b;display:block;margin-top:.4rem}</style></head>
+<body><h1>Pembuat kunci rahasia</h1>
+<p>Halaman ini berjalan sepenuhnya di browser Anda (tanpa internet, tanpa mengirim apa pun). Salin tiap nilai ke <b>Netlify → Site configuration → Environment variables</b>. Jangan bagikan nilainya.</p>
+<div id="out"></div><script>
+const b64=a=>btoa(String.fromCharCode(...a)),url=s=>s.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''),rnd=n=>crypto.getRandomValues(new Uint8Array(n));
+const items=[['DATA_ENC_KEY','Kunci enkripsi password akun (32 byte). SIMPAN SALINANNYA: jika hilang, password tersimpan tidak bisa dibuka.',()=>b64(rnd(32))],
+['SESSION_SECRET','Kunci sesi login (min. 32 karakter).',()=>url(b64(rnd(48)))],['CRON_SECRET','Opsional: hanya bila memakai pemicu eksternal (min. 24 karakter).',()=>url(b64(rnd(32)))]];
+const out=document.getElementById('out');
+for(const [k,d,f] of items){const r=document.createElement('div');r.className='row';r.innerHTML=`<b>${k}</b><small>${d}</small><p><code></code></p><button>Buat baru</button> <button>Salin</button>`;
+const c=r.querySelector('code'),[g,s]=r.querySelectorAll('button');const gen=()=>c.textContent=f();gen();g.onclick=gen;s.onclick=()=>navigator.clipboard.writeText(c.textContent).then(()=>{s.textContent='Tersalin ✓';setTimeout(()=>s.textContent='Salin',1500)});out.append(r)}
+</script></body></html>
